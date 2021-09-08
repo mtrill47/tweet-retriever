@@ -3,14 +3,18 @@
 # %%
 '''
 Title: Tweet Retriever
+
 Purpose: Janky quick way to retrieve your own tweets and search through them using specific words or phrases found in the tweets.
+
 Author: Tadiwanashe Matthew Kadango (matthewkadango@gmail.com)
 Followed tutorial by Israel Dryer.
+
 Code Reuse: This code is free for reuse. Edit it and use it for educational purposes only!
 '''
 import csv
 from getpass import getpass
 from time import sleep
+from selenium.common import exceptions
 from selenium.webdriver.common.keys import Keys 
 from selenium.common.exceptions import NoSuchElementException
 from msedge.selenium_tools import Edge, EdgeOptions
@@ -34,7 +38,7 @@ def get_tweet_data(card):
     
     return tweet
 
-if __name__ == '__main__':
+def main():
     user = input('Enter username: ')
     user_pass = input('Enter password: ')
     search_data = input("What are you looking for? \n >> ")
@@ -43,9 +47,12 @@ if __name__ == '__main__':
     options.use_chromium = True
     driver = Edge(options=options)
 
-    driver.get('https://twitter.com/login')
-    driver.maximize_window()
-    sleep(2.5)
+    try:
+        driver.get('https://twitter.com/login')
+        driver.maximize_window()
+        sleep(2.5)
+    except exceptions.TimeoutException:
+        return "Timeout while waiting for Login screen."
 
     # username
     username = driver.find_element_by_xpath('//input[@name="session[username_or_email]"]')
@@ -108,4 +115,8 @@ if __name__ == '__main__':
     # %%
     for tweet in sorted_tweet_data:
         if search_data in tweet:
-            print(tweet + '\n')
+            print("\n" + tweet + "\n")
+
+#%%
+if __name__=='__main__':
+    main()

@@ -1,6 +1,18 @@
+'''
+Title: Tweet Retriever
+
+Purpose: Janky quick way to retrieve your own tweets and search through them using specific words or phrases found in the tweets.
+
+Author: Tadiwanashe Matthew Kadango (matthewkadango@gmail.com)
+Followed tutorial by Israel Dryer.
+
+Code Reuse: This code is free for reuse. Edit it and use it for educational purposes only!
+'''
+
 import csv
 from getpass import getpass
 from time import sleep
+from selenium.common import exceptions
 from selenium.webdriver.common.keys import Keys 
 from selenium.common.exceptions import NoSuchElementException
 from msedge.selenium_tools import Edge, EdgeOptions
@@ -31,6 +43,7 @@ def get_info(user_name, password, search_term):
     search_data = search_term
     return user_name, user_pass, search_term
 
+
 def main():
     user, user_pass, search_data
     # %%
@@ -40,9 +53,12 @@ def main():
     driver = Edge(options=options)
 
     # navigating to twitter login page
-    driver.get('https://twitter.com/login')
-    driver.maximize_window()
-    sleep(2.5)
+    try:
+        driver.get('https://twitter.com/login')
+        driver.maximize_window()
+        sleep(2.5)
+    except exceptions.TimeoutException:
+        return "Timeout while waiting for Login screen."
 
     # username
     username = driver.find_element_by_xpath('//input[@name="session[username_or_email]"]')
@@ -101,12 +117,17 @@ def main():
     sorted_tweet_data = []
     for i in data:
         sorted_tweet_data.append(' || '.join(i).lower())
-
+    for i in sorted_tweet_data:
+        i + '\n'
 
     # %%
-    for tweet in sorted_tweet_data:
-        if search_data in tweet:
-            print(tweet + '\n')
+    try:
+        newline = '\n'
+        for tweet in sorted_tweet_data:
+            if search_data in tweet:
+                return tweet + newline
+    except IOError:
+        return "Could not find search term."
 
 if __name__=='__main__':
     main()
