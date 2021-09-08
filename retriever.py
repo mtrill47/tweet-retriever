@@ -3,15 +3,10 @@
 # %%
 '''
 Title: Tweet Retriever
-
 Purpose: Janky quick way to retrieve your own tweets and search through them using specific words or phrases found in the tweets.
-
 Author: Tadiwanashe Matthew Kadango (matthewkadango@gmail.com)
 Followed tutorial by Israel Dryer.
-
 Code Reuse: This code is free for reuse. Edit it and use it for educational purposes only!
-
-
 '''
 import csv
 from getpass import getpass
@@ -42,6 +37,7 @@ def get_tweet_data(card):
 if __name__ == '__main__':
     user = input('Enter username: ')
     user_pass = input('Enter password: ')
+    search_data = input("What are you looking for? \n >> ")
 # %%
     options = EdgeOptions()
     options.use_chromium = True
@@ -110,11 +106,6 @@ if __name__ == '__main__':
         sorted_tweet_data.append(' || '.join(i).lower())
 
     # %%
-    search_data = input("What are you looking for? \n >> ")
-
-    # %%
     for tweet in sorted_tweet_data:
         if search_data in tweet:
             print(tweet + '\n')
-
-
