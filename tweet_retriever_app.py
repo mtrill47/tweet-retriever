@@ -85,6 +85,7 @@ password_entry.pack(side="left", padx=1)
 search.pack(side="left")
 search_entry.pack(side="left", padx=1)
 
+# https://www.python-course.eu/tkinter_text_widget.php for the code tutorial for this textbook
 S = tk.Scrollbar(frame_center2)
 T = tk.Text(frame_center2, height = 8, width = 60)
 S.pack(side="right", fill="y")
